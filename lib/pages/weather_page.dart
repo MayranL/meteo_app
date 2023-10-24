@@ -1,3 +1,4 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:meteo_app/services/weather_services.dart';
@@ -100,10 +101,10 @@ class _WeatherPageState extends State<WeatherPage> {
             Lottie.asset(getWeatherAnimation(_weather?.mainCondition)),
 
             // temperature
-            Text('${_weather?.temperature.round()}°C',
+            Text('${_weather?.temperature.round()}°',
               style: const TextStyle(
                 fontFamily: 'Quicksand', // Utilisez le nom de la police défini dans le pubspec.yaml
-                fontSize: 24, // Taille du texte
+                fontSize: 48, // Taille du texte
                 color: Colors.white, // Couleur du texte
                 fontWeight: FontWeight.bold,
               ),
@@ -120,6 +121,28 @@ class _WeatherPageState extends State<WeatherPage> {
             ),
           ],
       )
-    ));
+    ),
+      bottomNavigationBar: CurvedNavigationBar(
+        backgroundColor: Colors.transparent,
+        color: Colors.white10,
+        animationDuration: Duration(milliseconds: 300),
+        onTap: (index) {
+          print(index);
+        }, items: [
+          Icon(
+            Icons.calendar_month,
+            color: Colors.white,
+          ),
+          Icon(
+            Icons.home,
+            color: Colors.white,
+          ),
+          Icon(
+            Icons.settings,
+            color: Colors.white,
+          ),
+      ],
+      ),
+    );
   }
 }
