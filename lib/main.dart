@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:meteo_app/pages/navigation_page.dart';
 import 'package:meteo_app/pages/weather_page.dart';
+import 'package:meteo_app/themes/theme_provider.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
-}
+  runApp(ChangeNotifierProvider(
+    create: (context) => ThemeProvider(),
+    child: const MyApp(),
+  ));}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: WeatherPage(),
+      theme: Provider.of<ThemeProvider>(context).themeData,
+      home: NavigationPage(),
     );
   }
 }

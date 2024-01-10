@@ -12,8 +12,7 @@ class WeatherPage extends StatefulWidget {
   State<WeatherPage> createState() => _WeatherPageState();
 }
 
-class _WeatherPageState extends State<WeatherPage> {
-
+class _WeatherPageState extends State<WeatherPage> with AutomaticKeepAliveClientMixin {
   // api key
   final _weatherService = WeatherService('ee48824d5e9ea5d1644f57a0524094ab');
   Weather? _weather;
@@ -39,7 +38,7 @@ class _WeatherPageState extends State<WeatherPage> {
 
   // weather animations
   String getWeatherAnimation(String? mainCondition) {
-    if(mainCondition == null) return 'assets/sunny.json';
+    if (mainCondition == null) return 'assets/sunny.json';
 
     switch (mainCondition.toLowerCase()) {
       case 'clouds':
@@ -57,7 +56,7 @@ class _WeatherPageState extends State<WeatherPage> {
         return 'assets/thunder.json';
       case 'clear':
         return 'assets/sunny.json';
-      default :
+      default:
         return 'assets/sunny.json';
     }
   }
@@ -74,75 +73,58 @@ class _WeatherPageState extends State<WeatherPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueGrey[900],
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(
-              Icons.location_on,
-              color: Colors.grey,
-              size: 30.0,
-            ),
-
-            SizedBox(height: 10),
-
-            // city name
-            Text(_weather?.cityName ?? "loading city..",
-              style: const TextStyle(
-                fontFamily: 'Quicksand', // Utilisez le nom de la police défini dans le pubspec.yaml
-                fontSize: 32, // Taille du texte
-                color: Colors.white, // Couleur du texte
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-
-            // animation
-            Lottie.asset(getWeatherAnimation(_weather?.mainCondition)),
-
-            // temperature
-            Text('${_weather?.temperature.round()}°',
-              style: const TextStyle(
-                fontFamily: 'Quicksand', // Utilisez le nom de la police défini dans le pubspec.yaml
-                fontSize: 48, // Taille du texte
-                color: Colors.white, // Couleur du texte
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-
-            // weather condition
-            Text(_weather?.mainCondition ?? "",
-              style: const TextStyle(
-                fontFamily: 'Quicksand', // Utilisez le nom de la police défini dans le pubspec.yaml
-                fontSize: 20, // Taille du texte
-                color: Colors.white, // Couleur du texte
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-      )
-    ),
-      bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Colors.transparent,
-        color: Colors.white10,
-        animationDuration: Duration(milliseconds: 300),
-        onTap: (index) {
-          print(index);
-        }, items: [
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
           Icon(
-            Icons.calendar_month,
-            color: Colors.white,
+            Icons.location_on,
+            size: 30.0,
           ),
-          Icon(
-            Icons.home,
-            color: Colors.white,
+
+          SizedBox(height: 10),
+
+          // city name
+          Text(
+            _weather?.cityName ?? "loading city..",
+            style: TextStyle(
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-          Icon(
-            Icons.settings,
-            color: Colors.white,
+
+          // animation
+          Lottie.asset(getWeatherAnimation(_weather?.mainCondition)),
+
+          // temperature
+          Text(
+            '${_weather?.temperature.round()}°',
+            style: TextStyle(
+              // Utilisez le nom de la police défini dans le pubspec.yaml
+              fontSize: 48,
+              // Taille du texte
+              fontWeight: FontWeight.bold,
+            ),
           ),
-      ],
-      ),
+
+          // weather condition
+          Text(
+            _weather?.mainCondition ?? "",
+            style: TextStyle(
+              // Utilisez le nom de la police défini dans le pubspec.yaml
+              fontSize: 20,
+              // Taille du texte
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+
+        ],
+      )),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
